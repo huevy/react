@@ -13,7 +13,7 @@ var CTwitList = React.createClass({
   },
 
   _renderItem: function(item) {
-    return <li>{item.text}</li>;
+    return <li key={item.id}>{item.text}</li>;
   },
 
   render: function() {
