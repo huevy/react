@@ -4,7 +4,9 @@
 
 var _ = require('lodash');
 var React = require('react');
-var TwitList = require('./data/dto/TwitList');
+var TwitList = require('../data/dto/TwitList');
+
+var CTwitItem = require('./CTwitItem.jsx');
 
 var CTwitList = React.createClass({
 
@@ -13,7 +15,7 @@ var CTwitList = React.createClass({
   },
 
   _renderItem: function(item) {
-    return <li key={item.id}>{item.text}</li>;
+    return <CTwitItem item={ item } />;
   },
 
   render: function() {

@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var browserify = require('gulp-browserify');
 var jshint = require('gulp-jshint');
 var plumber = require('gulp-plumber');
+var rename = require('gulp-rename');
 var react = require('gulp-react');
 var serve = require('gulp-serve');
 var reactify = require('reactify');
@@ -9,7 +10,7 @@ var reactify = require('reactify');
 
 var SRC = './src';
 var BUILD = './build';
-var APP_MAIN = SRC + '/index.js';
+var APP_MAIN = SRC + '/index.jsx';
 
 gulp.task('serve', serve(['html', 'build']));
 
@@ -22,6 +23,7 @@ gulp.task('js', function() {
 			debug: !gulp.env.production,
 			transform: [reactify]
 		}))
+		.pipe(rename('index.js'))
 		.pipe(gulp.dest(BUILD));
 });
 

@@ -4,7 +4,7 @@
 
 var React = require('react');
 
-var App = require('./app');
+var App = require('./App.jsx');
 
 React.renderComponent(
   <App />, document.getElementById('app'));

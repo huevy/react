@@ -3,18 +3,16 @@
  */
 
 var React = require('react');
-var Stream = require('./data/stream');
+
+var Stream = require('./data/Stream');
 var FakeStream = require('./data/FakeStream');
 var Store  = require('./data/TwitStore');
-var CTwitList  = require('./CTwitList.jsx');
+
+var CTwitList  = require('./view/CTwitList.jsx');
+var CNewTwitsButton  = require('./view/CNewTwitsButton.jsx');
 
 
 var App = React.createClass({
-
-  // propTypes: {
-  //   unseenTwits: React.PropTypes.instanceOf(Store),
-  //   seenTwits: React.PropTypes.instanceOf(Store)
-  // },
 
   getInitialState: function () {
     return {
@@ -53,34 +51,15 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <div>
-          {
-            this.state.unseenTwits.items.length ? (
-              <a href="javascript:void(0)"
-                 onClick={ this._onActionReadNew }>
-                Unseen { this.state.unseenTwits.items.length }
-              </a>
-            ) : undefined
-          }
-        </div>
-
+        <CNewTwitsButton
+          count={ this.state.unseenTwits.items.length }
+          onTap={ this._onActionReadNew }
+        />
         <CTwitList items={ this.state.seenTwits.items } />
-
       </div>
     );
   },
 
 });
-
-// // var stream = new Stream();
-// var stream = new FakeStream();
-// var store = Store.createEmpty();
-
-// // var unseenTwits = new Store();
-// stream.on('twit', function(twit) {
-//   console.log('twit', twit);
-//   store = store.push(twit);
-//   console.log(store.items);
-// });
 
 module.exports = App;

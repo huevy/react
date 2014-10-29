@@ -8,7 +8,7 @@ var id = 0;
 
 function createFakeTweet() {
   return {
-    id: '2342343242',
+    id: '' + id,
     name: 'sdvsdv',
     text: '#' + (++id),
     createdAt: '2014',
