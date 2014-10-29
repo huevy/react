@@ -11,7 +11,7 @@ var TwitStore = t.struct({
 TwitStore.prototype.concat = function(store) {
   return TwitStore.update(this, {
     items: {
-      $unshift: store.items,
+      $prepend: store.items,
     }
   });
 };
@@ -19,7 +19,7 @@ TwitStore.prototype.concat = function(store) {
 TwitStore.prototype.push = function(twit) {
   return TwitStore.update(this, {
     items: {
-      $unshift: twit,
+      $prepend: [twit],
     }
   });
 };
