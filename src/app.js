@@ -9,7 +9,6 @@ var Store  = require('./data/TwitStore');
 var CTwitList  = require('./CTwitList.jsx');
 
 
-
 var App = React.createClass({
 
   // propTypes: {
