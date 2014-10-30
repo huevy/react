@@ -55,7 +55,7 @@ var App = React.createClass({
           count={ this.state.unseenTwits.items.length }
           onTap={ this._onActionReadNew }
         />
-        <CTwitList items={ this.state.seenTwits.items } />
+        <CTwitList store={ this.state.seenTwits } />
       </div>
     );
   },
