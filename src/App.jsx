@@ -12,6 +12,9 @@ var CTwitList  = require('./view/CTwitList.jsx');
 var CNewTwitsButton  = require('./view/CNewTwitsButton.jsx');
 var CMap  = require('./view/map/CMap.jsx');
 
+var Users  = require('./data/Users');
+var apis  = require('./data/apis');
+
 
 var App = React.createClass({
 
@@ -21,11 +24,15 @@ var App = React.createClass({
       seenTwits: Store.createEmpty(),
       stream: new Stream(),
       // stream: new FakeStream(),
+      users: new Users(apis),
     }
   },
 
   componentDidMount: function () {
-    this.state.stream.on('twit', this._onTwit);  
+    this.state.stream.on('twit', this._onTwit);
+    this.state.users.getList().then(function (users){
+      console.log(users);
+    });
   },
 
   _onTwit: function (twit) {
