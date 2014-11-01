@@ -10,6 +10,7 @@ var Store  = require('./data/TwitStore');
 
 var CTwitList  = require('./view/CTwitList.jsx');
 var CNewTwitsButton  = require('./view/CNewTwitsButton.jsx');
+var CMap  = require('./view/map/CMap.jsx');
 
 
 var App = React.createClass({
@@ -56,6 +57,8 @@ var App = React.createClass({
           onTap={ this._onActionReadNew }
         />
         <CTwitList store={ this.state.seenTwits } />
+        <CMap />
+
       </div>
     );
   },
