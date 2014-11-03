@@ -15,6 +15,9 @@ var CMap  = require('./view/map/CMap.jsx');
 var Users  = require('./data/Users');
 var apis  = require('./data/apis');
 
+var TMarker = require('./data/dto/TMarker');
+var TBubble = require('./data/dto/TBubble');
+
 
 var App = React.createClass({
 
@@ -30,8 +33,27 @@ var App = React.createClass({
 
   componentDidMount: function () {
     this.state.stream.on('twit', this._onTwit);
-    this.state.users.getList().then(function (users){
-      console.log(users);
+
+    this.state.users.getList()
+      .then(function (users){
+        this.setState({
+          markers: this._userListToMarkerList(users)
+        });
+      }.bind(this)
+    );
+
+  },
+
+  _userListToMarkerList: function (userList) {
+    return userList.map(function (user) {
+      return new TMarker({
+        id: user.id_str,
+        lat: user.geo.lat,
+        lng: user.geo.lng,
+        w: 64,
+        h: 64,
+        url: user.profile_image_url_https,
+      });
     });
   },
 
@@ -56,6 +78,18 @@ var App = React.createClass({
     this._readNew();
   },
 
+  _onMarkerClick: function (marker) {
+    var bubble = new TBubble({
+      lng: marker.lng,
+      lat: marker.lat,
+      text: 'Text',
+    });
+
+    this.setState({
+      mapBubble: bubble,
+    });
+  },
+
   render: function() {
     return (
       <div>
@@ -64,7 +98,11 @@ var App = React.createClass({
           onTap={ this._onActionReadNew }
         />
         <CTwitList store={ this.state.seenTwits } />
-        <CMap />
+        <CMap
+          markers={ this.state.markers }
+          bubble={ this.state.mapBubble }
+          onMarkerClick={ this._onMarkerClick }
+        />
 
       </div>
     );
