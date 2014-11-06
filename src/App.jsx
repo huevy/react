@@ -6,15 +6,15 @@ var React = require('react');
 
 var Stream = require('./data/Stream');
 var FakeStream = require('./data/FakeStream');
-var Store  = require('./data/TwitStore');
+var Store = require('./data/TwitStore');
 
-var CTwitList  = require('./view/CTwitList.jsx');
-var CNewTwitsButton  = require('./view/CNewTwitsButton.jsx');
-var CMap  = require('./view/map/CMap.jsx');
+var CTwitList = require('./view/CTwitList.jsx');
+var CNewTwitsButton = require('./view/CNewTwitsButton.jsx');
+var CMap = require('./view/map/CMap.jsx');
 
-var apis  = require('./data/apis');
-var Users  = require('./data/Users');
-var Twits  = require('./data/Twits');
+var apis = require('./data/apis');
+var Users = require('./data/Users');
+var Twits = require('./data/Twits');
 
 var TMarker = require('./data/dto/TMarker');
 var TBubble = require('./data/dto/TBubble');
@@ -22,37 +22,36 @@ var TBubble = require('./data/dto/TBubble');
 
 var App = React.createClass({
 
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       unseenTwits: Store.createEmpty(),
       seenTwits: Store.createEmpty(),
     }
   },
 
-  componentDidMount: function () {
+  componentDidMount: function() {
     // this.stream = new FakeStream();
     this.users = new Users(apis);
     this.twits = new Twits(apis, this.users);
     this.stream = new Stream(this.users);
 
     this.twits.getList()
-      .then(function (twits) {
+      .then(function(twits) {
         this._showInitialTwits(twits)
         this.stream.on('twit', this._onTwit);
       }.bind(this));
 
     this.users.getList()
-      .then(function (users){
+      .then(function(users) {
         this.setState({
           markers: this._userListToMarkerList(users)
         });
-      }.bind(this)
-    );
+      }.bind(this));
 
   },
 
-  _userListToMarkerList: function (userList) {
-    return userList.map(function (user) {
+  _userListToMarkerList: function(userList) {
+    return userList.map(function(user) {
       return new TMarker({
         id: user.id_str,
         lat: user.geo.lat,
@@ -64,7 +63,7 @@ var App = React.createClass({
     });
   },
 
-  _onTwit: function (twit) {
+  _onTwit: function(twit) {
     this._addUnseenTwit(twit);
   },
 
@@ -91,7 +90,7 @@ var App = React.createClass({
     this._readUnseenTwits();
   },
 
-  _onMarkerClick: function (marker) {
+  _onMarkerClick: function(marker) {
     var bubble = new TBubble({
       lng: marker.lng,
       lat: marker.lat,

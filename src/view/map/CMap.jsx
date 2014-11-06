@@ -47,27 +47,27 @@ var CMap = React.createClass({
     map.addLayer(cluster);
   },
 
-  shouldComponentUpdate: function (nextProps, nextState) {
-    if(nextProps.markers !== this.props.markers) {
+  shouldComponentUpdate: function(nextProps, nextState) {
+    if (nextProps.markers !== this.props.markers) {
       return true;
     }
-    if(nextProps.bubble !== this.props.bubble) {
+    if (nextProps.bubble !== this.props.bubble) {
       return true;
     }
     return false;
   },
 
   componentDidUpdate: function(prevProps, prevState) {
-    if(prevProps.markers !== this.props.markers) {
+    if (prevProps.markers !== this.props.markers) {
       this._syncMarkers(this.props.markers);
     }
-    if(prevProps.bubble !== this.props.bubble) {
+    if (prevProps.bubble !== this.props.bubble) {
       this._syncBubble(this.props.bubble);
     }
   },
 
   _syncBubble: function(bubble) {
-    if(this.bubble) {
+    if (this.bubble) {
       this.map.removeLayer(this.bubble);
     }
     this.bubble = L.popup()
@@ -82,18 +82,18 @@ var CMap = React.createClass({
     this.cluster.clearLayers();
     var mapMarkers = markers.map(function(marker) {
       return L.marker([marker.lat, marker.lng], {
-        icon: L.icon({
-          iconUrl: marker.url,
-          iconSize: [marker.w, marker.h]
+          icon: L.icon({
+            iconUrl: marker.url,
+            iconSize: [marker.w, marker.h]
+          })
         })
-      })
-      .on('click', this._onMarkerClick.bind(this, marker));
+        .on('click', this._onMarkerClick.bind(this, marker));
     }.bind(this));
     this.cluster.addLayers(mapMarkers);
   },
 
   _onMarkerClick: function(marker, e) {
-    if(this.props.onMarkerClick) {
+    if (this.props.onMarkerClick) {
       this.props.onMarkerClick(marker);
     }
   },

@@ -7,11 +7,11 @@ var React = require('react');
 var CNewTwitsButton = React.createClass({
 
   propTypes: {
-    count : React.PropTypes.number,
-    onTap : React.PropTypes.func,
+    count: React.PropTypes.number,
+    onTap: React.PropTypes.func,
   },
 
-  _getStyle: function () {
+  _getStyle: function() {
     return {
       display: this.props.count > 0 ? 'block' : 'none'
     };

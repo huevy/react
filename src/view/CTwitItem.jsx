@@ -12,7 +12,7 @@ var Twit = require('../data/dto/Twit');
 var CTwitItem = React.createClass({
 
   propTypes: {
-    item : is(Twit)
+    item: is(Twit)
   },
 
   render: function() {

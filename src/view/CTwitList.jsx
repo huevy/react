@@ -12,7 +12,7 @@ var CTwitItem = require('./CTwitItem.jsx');
 var CTwitList = React.createClass({
 
   propTypes: {
-    store : is(TwitStore)
+    store: is(TwitStore)
   },
 
   _renderItem: function(item) {
