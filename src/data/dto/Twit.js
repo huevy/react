@@ -7,6 +7,10 @@
 // userName: "Хуёвый Washington DC"
 
 var t = require('tcomb');
+var TUser = require('./TUser');
+
+//--------------------------------------------------------------------
+
 var TwitRaw, Twit;
 
 //--------------------------------------------------------------------
@@ -40,12 +44,30 @@ Twit = t.struct({
   screenName: t.Str,
   text: t.Str,
   userFollowersCount: t.Num,
+  owner: t.maybe(TUser),
 }, 'Twit');
 
 Twit.fromRaw = function(raw) {
   raw = TwitRaw(raw);
   return raw.toTwit();
 };
+
+Twit.prototype.setOwner = function(user) {
+  if (!user) {
+    return this;
+  }
+  user = new TUser(user);
+  return new Twit({
+    createdAt: this.createdAt,
+    id: this.id,
+    name: this.name,
+    screenName: this.screenName,
+    text: this.text,
+    userFollowersCount: this.userFollowersCount,
+    owner: user,
+  });
+};
+
 
 //--------------------------------------------------------------------
 

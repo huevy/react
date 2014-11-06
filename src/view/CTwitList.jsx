@@ -22,9 +22,7 @@ var CTwitList = React.createClass({
   render: function() {
     return (
       <div className="TwitList">
-        <ul>
-          { this.props.store.items.map(this._renderItem) }
-        </ul>
+        { this.props.store.items.map(this._renderItem) }
       </div>
     );
   }

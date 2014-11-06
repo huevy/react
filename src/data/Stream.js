@@ -4,13 +4,13 @@ var Twit = require('./dto/Twit');
 var events = require('events');
 var util = require('util');
 
-function Stream() {
+function Stream(users) {
+  this.users = users;
+
   var sock = io.connect(dbApis.socket, {
     transports: ['xhr-polling']
   });
   sock.on('twit', this._onTwit.bind(this));
-  // sock.on('media', function(data) {
-  // });
 }
 
 util.inherits(Stream, events.EventEmitter);
@@ -19,5 +19,11 @@ module.exports = Stream;
 
 Stream.prototype._onTwit = function(data) {
   var twit = Twit.fromRaw(data);
-  this.emit('twit', twit);
+
+  this.users.getByScreenName(twit.screen_name).then(function(user) {
+    if (user) {
+      twit = twit.setOwner(user);
+    }
+    this.emit('twit', twit);
+  });
 };

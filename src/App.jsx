@@ -12,8 +12,9 @@ var CTwitList  = require('./view/CTwitList.jsx');
 var CNewTwitsButton  = require('./view/CNewTwitsButton.jsx');
 var CMap  = require('./view/map/CMap.jsx');
 
-var Users  = require('./data/Users');
 var apis  = require('./data/apis');
+var Users  = require('./data/Users');
+var Twits  = require('./data/Twits');
 
 var TMarker = require('./data/dto/TMarker');
 var TBubble = require('./data/dto/TBubble');
@@ -25,16 +26,22 @@ var App = React.createClass({
     return {
       unseenTwits: Store.createEmpty(),
       seenTwits: Store.createEmpty(),
-      stream: new Stream(),
-      // stream: new FakeStream(),
-      users: new Users(apis),
     }
   },
 
   componentDidMount: function () {
-    this.state.stream.on('twit', this._onTwit);
+    // this.stream = new FakeStream();
+    this.users = new Users(apis);
+    this.twits = new Twits(apis, this.users);
+    this.stream = new Stream(this.users);
 
-    this.state.users.getList()
+    this.twits.getList()
+      .then(function (twits) {
+        this._showInitialTwits(twits)
+        this.stream.on('twit', this._onTwit);
+      }.bind(this));
+
+    this.users.getList()
       .then(function (users){
         this.setState({
           markers: this._userListToMarkerList(users)
@@ -67,15 +74,21 @@ var App = React.createClass({
     });
   },
 
-  _readNew: function() {
+  _showInitialTwits: function(twits) {
     this.setState({
-      seenTwits: this.state.seenTwits.concat(this.state.unseenTwits),
+      seenTwits: this.state.seenTwits.concat(twits),
+    });
+  },
+
+  _readUnseenTwits: function() {
+    this.setState({
+      seenTwits: this.state.seenTwits.concat(this.state.unseenTwits.items),
       unseenTwits: Store.createEmpty(),
     });
   },
 
   _onActionReadNew: function() {
-    this._readNew();
+    this._readUnseenTwits();
   },
 
   _onMarkerClick: function (marker) {
@@ -92,18 +105,24 @@ var App = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <CNewTwitsButton
-          count={ this.state.unseenTwits.items.length }
-          onTap={ this._onActionReadNew }
-        />
-        <CTwitList store={ this.state.seenTwits } />
-        <CMap
-          markers={ this.state.markers }
-          bubble={ this.state.mapBubble }
-          onMarkerClick={ this._onMarkerClick }
-        />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xs-5">
+            <CNewTwitsButton
+              count={ this.state.unseenTwits.items.length }
+              onTap={ this._onActionReadNew }
+            />
+            <CTwitList store={ this.state.seenTwits } />
+          </div>
+          <div className="col-xs-7">
+            <CMap
+              markers={ this.state.markers }
+              bubble={ this.state.mapBubble }
+              onMarkerClick={ this._onMarkerClick }
+            />
+          </div>
 
+        </div>
       </div>
     );
   },

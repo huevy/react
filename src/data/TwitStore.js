@@ -8,10 +8,10 @@ var TwitStore = t.struct({
   items: TwitList
 });
 
-TwitStore.prototype.concat = function(store) {
+TwitStore.prototype.concat = function(items) {
   return TwitStore.update(this, {
     items: {
-      $unshift: store.items,
+      $unshift: items,
     }
   });
 };

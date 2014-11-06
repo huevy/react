@@ -4,11 +4,15 @@ var boop = require('boop');
 var t = require('tcomb');
 var rsvp = require('rsvp');
 
+var promiseCache = require('../lib/promiseCache');
+
 var TUserList = require('./dto/TUserList');
 var TLocationDict = require('./dto/TLocationDict');
 var TGeoDict = require('./dto/TGeoDict');
 var TGeoUser = require('./dto/TGeoUser');
 var TGeoUserList = require('./dto/TGeoUserList');
+
+var TTL = 3600 * 1000;
 
 function zipAll(users, locations, geo) {
   return TGeoUserList(_(users)
@@ -65,7 +69,29 @@ var Users = boop.extend({
       })
   },
 
+  getById: function(id) {
+    return this.getList().then(function(users) {
+      return _(users).where({
+        id: id
+      }).value()[0];
+    });
+  },
+
+  getByScreenName: function(screen_name) {
+    return this.getList().then(function(users) {
+      return _(users).where({
+        screen_name: screen_name
+      }).value()[0];
+    });
+  },
+
   getList: function() {
+    return promiseCache('Users.getList', TTL, function() {
+      return this._getListUncached();
+    }.bind(this));
+  },
+
+  _getListUncached: function() {
     return rsvp
       .all([
         this._getUsers(),

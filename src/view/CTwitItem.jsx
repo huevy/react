@@ -16,18 +16,23 @@ var CTwitItem = React.createClass({
   },
 
   render: function() {
+    var item = this.props.item;
+
     return (
-      <li className="CTwitItem">
-        <div className="CTwitItem-createdAt">
-          { moment(this.props.item.createdAt).fromNow() }
-        </div>
-        <div className="CTwitItem-name">
-          { this.props.item.name }
-        </div>
+      <div className="CTwitItem">
+        <a className="CTwitItem-avatar" href="javascript:void(0)">
+          {item.owner ? <img src={ item.owner.profile_image_url_https } alt={item.name} /> : false}
+        </a>
         <div className="CTwitItem-text">
-          { this.props.item.text }
+          <h4 className="CTwitItem-name">
+            { item.name }
+          </h4>
+          { item.text }
+          <div className="CTwitItem-createdAt">
+            { moment(item.createdAt).fromNow() }
+          </div>
         </div>
-      </li>
+      </div>
     );
   }
 });
