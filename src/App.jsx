@@ -11,6 +11,7 @@ var Store = require('./data/TwitStore');
 var CTwitList = require('./view/CTwitList.jsx');
 var CNewTwitsButton = require('./view/CNewTwitsButton.jsx');
 var CMap = require('./view/map/CMap.jsx');
+var CNavBar = require('./view/CNavBar.jsx');
 
 var apis = require('./data/apis');
 var Users = require('./data/Users');
@@ -18,6 +19,7 @@ var Twits = require('./data/Twits');
 
 var TMarker = require('./data/dto/TMarker');
 var TBubble = require('./data/dto/TBubble');
+
 
 
 var App = React.createClass({
@@ -105,6 +107,8 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="container-fluid">
+        <CNavBar />
+
         <div className="row">
           <div className="col-xs-5">
             <CNewTwitsButton
@@ -113,15 +117,16 @@ var App = React.createClass({
             />
             <CTwitList store={ this.state.seenTwits } />
           </div>
-          <div className="col-xs-7">
-            <CMap
-              markers={ this.state.markers }
-              bubble={ this.state.mapBubble }
-              onMarkerClick={ this._onMarkerClick }
-            />
-          </div>
-
         </div>
+        
+        <div className="AppMap col-xs-7 col-xs-offset-5">
+          <CMap
+            markers={ this.state.markers }
+            bubble={ this.state.mapBubble }
+            onMarkerClick={ this._onMarkerClick }
+          />
+        </div>
+
       </div>
     );
   },
