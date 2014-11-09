@@ -19,12 +19,12 @@ var CNewTwitsButton = React.createClass({
 
   render: function() {
     return (
-      <div className="CNewTwitsButton" style={this._getStyle()}>
-        <a href="javascript:void(0)"
-           onClick={ this.props.onTap }>
-          { this.props.count } new tweets
-        </a>
-      </div>
+      <button
+          className="CNewTwitsButton"
+          style={this._getStyle()}
+          onClick={ this.props.onTap }>
+        { this.props.count } new tweets
+      </button>
     );
   }
 });

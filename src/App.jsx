@@ -39,7 +39,7 @@ var App = React.createClass({
 
     this.twits.getList()
       .then(function(twits) {
-        this._showInitialTwits(twits)
+        this._showInitialTwits(twits);
         this.stream.on('twit', this._onTwit);
       }.bind(this));
 

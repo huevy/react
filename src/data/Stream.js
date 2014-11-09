@@ -20,10 +20,10 @@ module.exports = Stream;
 Stream.prototype._onTwit = function(data) {
   var twit = Twit.fromRaw(data);
 
-  this.users.getByScreenName(twit.screen_name).then(function(user) {
+  this.users.getByScreenName(twit.screenName).then(function(user) {
     if (user) {
       twit = twit.setOwner(user);
     }
     this.emit('twit', twit);
-  });
+  }.bind(this));
 };

@@ -15,7 +15,7 @@ function promiseCache(key, ttl, fn) {
       fn()
         .then(function(res) {
           console.log('cache miss');
-          cache.put(key, ttl, res);
+          cache.put(key, res, ttl);
           resolve(res);
           return;
         }, function(err) {
