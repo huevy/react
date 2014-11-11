@@ -23,14 +23,15 @@
   "dependencies": {
     "axios": "~0.4.1",
     "boop": "0.0.2",
+    "bootstrap": "^3.3.0",
     "gulp-rename": "~1.2.0",
     "leaflet": "~0.7.3",
     "leaflet-markercluster": "git+https://github.com/Leaflet/Leaflet.markercluster.git#v0.4.0",
     "lodash": "~2.4.1",
+    "memory-cache": "0.0.5",
     "moment": "~2.8.3",
     "react": "0.12.0",
     "rsvp": "~3.0.14",
-    "tcomb": "git+https://github.com/gcanti/tcomb.git#master",
-    "memory-cache": "0.0.5"
+    "tcomb": "git+https://github.com/gcanti/tcomb.git#master"
   }
 }
