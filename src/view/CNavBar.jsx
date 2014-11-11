@@ -3,6 +3,12 @@
  */
 
 var React = require('react');
+var Router = require('react-router');
+var Route = Router.Route;
+var Routes = Router.Routes;
+var NotFoundRoute = Router.NotFoundRoute;
+var DefaultRoute = Router.DefaultRoute;
+var Link = Router.Link;
 
 var CNavBar = React.createClass({
 
@@ -11,8 +17,8 @@ var CNavBar = React.createClass({
       <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
         <div className="container">
           <ul className="nav navbar-nav">
-            <li><a href="#">Link</a></li>
-            <li className="active"><a href="#">Link</a></li>
+            <li><Link to="index">Home</Link></li>
+            <li><Link to="test">Test</Link></li>
           </ul>
         </div>
       </nav>
