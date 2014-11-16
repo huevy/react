@@ -72,7 +72,7 @@ var Users = boop.extend({
   getById: function(id) {
     return this.getList().then(function(users) {
       return _(users).where({
-        id: id
+        id_str: id
       }).value()[0];
     });
   },

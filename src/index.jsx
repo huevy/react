@@ -15,8 +15,7 @@ var Test = require('./Test.jsx');
 
 React.renderComponent(
   (
-    <Routes location="history">
-      <Route name="index" path="/" handler={App} />
-      <Route name="test" path="/test" handler={Test} />
+    <Routes location="hash">
+      <Route name="index" path="/?:mapBubble?" handler={App}></Route>
     </Routes>
   ), document.getElementById('app'));

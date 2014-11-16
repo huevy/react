@@ -18,7 +18,6 @@ var CNavBar = React.createClass({
         <div className="container">
           <ul className="nav navbar-nav">
             <li><Link to="index">Home</Link></li>
-            <li><Link to="test">Test</Link></li>
           </ul>
         </div>
       </nav>

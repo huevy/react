@@ -3,6 +3,7 @@
  */
 
 var React = require('react');
+var Navigation = require('react-router').Navigation;
 
 var Stream = require('./data/Stream');
 var FakeStream = require('./data/FakeStream');
@@ -23,6 +24,7 @@ var TBubble = require('./data/dto/TBubble');
 
 
 var App = React.createClass({
+  mixins: [Navigation],
 
   getInitialState: function() {
     return {
@@ -50,7 +52,16 @@ var App = React.createClass({
         });
       }.bind(this));
 
+    if(this.props.params.mapBubble) {
+      this.showBubble(this.props.params.mapBubble);
+    }
+
   },
+
+  // componentWillReceiveProps: function(nextProps) {
+  //   debugger
+  // },
+
 
   _userListToMarkerList: function(userList) {
     return userList.map(function(user) {
@@ -93,15 +104,29 @@ var App = React.createClass({
   },
 
   _onMarkerClick: function(marker) {
-    var bubble = new TBubble({
-      lng: marker.lng,
-      lat: marker.lat,
-      text: 'Text',
+    this.transitionTo('index', {
+      mapBubble: marker.id,
     });
+  },
 
-    this.setState({
-      mapBubble: bubble,
-    });
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.params.mapBubble !== this.props.params.mapBubble) {
+      this.showBubble(nextProps.params.mapBubble);
+    }
+  },
+
+  showBubble: function(userId) {
+    this.users.getById(userId).then(function(user) {
+      var bubble = new TBubble({
+        lng: user.geo.lng,
+        lat: user.geo.lat,
+        text: user.name,
+      });
+
+      this.setState({
+        mapBubble: bubble,
+      });
+    }.bind(this));
   },
 
   render: function() {
